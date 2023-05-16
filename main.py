@@ -13,6 +13,6 @@ print(data['Score'])
 # Create and show histogram showing counts of review stars
 score_plot = data['Score'].value_counts().sort_index().plot(kind='bar',
                                                             title='Count of Reviews', figsize=(10, 5),
-                                                            color='blue', edgecolor='black')
+                                                            color='gray', edgecolor='black')
 score_plot.set_xlabel('Review Stars')
 plt.show()
