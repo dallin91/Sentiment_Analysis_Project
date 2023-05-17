@@ -48,4 +48,6 @@ vaders = vaders.merge(data, how='left')
 # Check compound score from vaders against star score review
 tester_plot = sns.barplot(data=vaders, x='Score', y='compound')
 tester_plot.set_title('Compound Score by Amazon Star Review')
-plt.show()
+#plt.show()
+
+#RoBERTa Model practice DO NOT USE IN FINAL PRODUCT
