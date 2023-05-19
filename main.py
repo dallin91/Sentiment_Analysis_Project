@@ -2,6 +2,10 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+# Packages for file opening
+import tkinter as tk
+from tkinter import filedialog
+
 plt.style.use('ggplot')
 import seaborn as sns
 import nltk
