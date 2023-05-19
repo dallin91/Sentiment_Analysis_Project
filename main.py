@@ -6,6 +6,15 @@ plt.style.use('ggplot')
 import seaborn as sns
 import nltk
 
+# Packages for RoBERTa model
+from transformers import AutoTokenizer
+from transformers import AutoModelForSequenceClassification
+from scipy.special import softmax
+import torch
+
+# Tells PyTorch to use first available GPU
+# device = torch.device(“cuda: 0”)
+
 # Read data using pandas
 data = pd.read_excel("SampleReviews.xlsx")
 print(data['Score'])
@@ -31,23 +40,68 @@ from tqdm import tqdm
 
 sia = SentimentIntensityAnalyzer()
 results = {}
-for i, row in tqdm(data.iterrows(), total=len(data)):
-    text = row['Text']
-    myid = row['Id']
-    # Converts non string variables to strings
-    if type(text) is not str:
-        text = str(text)
-    polarity = sia.polarity_scores(text)
-    results[myid] = polarity
+# for i, row in tqdm(data.iterrows(), total=len(data)):
+#     text = row['Text']
+#     myid = row['Id']
+#     # Converts non string variables to strings
+#     if type(text) is not str:
+#         text = str(text)
+#     polarity = sia.polarity_scores(text)
+#     results[myid] = polarity
+#
+# # Take results and put into pandas dataframe
+# vaders = pd.DataFrame(results).T
+# vaders = vaders.reset_index().rename(columns={'index': 'Id'})
+# vaders = vaders.merge(data, how='left')
 
-# Take results and put into pandas dataframe
-vaders = pd.DataFrame(results).T
-vaders = vaders.reset_index().rename(columns={'index': 'Id'})
-vaders = vaders.merge(data, how='left')
-
-# Check compound score from vaders against star score review
-tester_plot = sns.barplot(data=vaders, x='Score', y='compound')
-tester_plot.set_title('Compound Score by Amazon Star Review')
-#plt.show()
+# # Check compound score from vaders against star score review
+# tester_plot = sns.barplot(data=vaders, x='Score', y='compound')
+# tester_plot.set_title('Compound Score by Amazon Star Review')
+# plt.show()
 
 #RoBERTa Model practice DO NOT USE IN FINAL PRODUCT
+MODEL = f"cardiffnlp/twitter-roberta-base-sentiment"
+tokenizer = AutoTokenizer.from_pretrained(MODEL)
+model = AutoModelForSequenceClassification.from_pretrained(MODEL)
+
+encoded_text = tokenizer(example, return_tensors='pt', max_length=512, truncation=True)
+output = model(**encoded_text)
+scores = output[0][0].detach().numpy()
+scores = softmax(scores)
+scores_dict = {
+    "roberta_neg" : scores[0],
+    "roberta_neu" : scores[1],
+    "roberta_pos" : scores[2]
+}
+
+def polarity_scores_roberta(example):
+    encoded_text = tokenizer(example, return_tensors='pt', max_length=512, truncation=True)
+    output = model(**encoded_text)
+    scores = output[0][0].detach().numpy()
+    scores = softmax(scores)
+    scores_dict = {
+        "roberta_neg": scores[0],
+        "roberta_neu": scores[1],
+        "roberta_pos": scores[2]
+    }
+    return scores_dict
+
+
+for i, row in tqdm(data.iterrows(), total=len(data)):
+    try:
+        text = row['Text']
+        myid = row['Id']
+        # Converts non string variables to strings
+        if type(text) is not str:
+            text = str(text)
+        roberta_results = polarity_scores_roberta(text)
+
+        results[myid] = roberta_results
+    except RuntimeError:
+        print(f'Broke for id {myid}')
+
+roberta = pd.DataFrame(results).T
+roberta = roberta.reset_index().rename(columns={'index': 'Id'})
+roberta = roberta.merge(data, how='left')
+
+print(roberta.head(5))
