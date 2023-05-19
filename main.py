@@ -19,9 +19,20 @@ import torch
 # Tells PyTorch to use first available GPU
 # device = torch.device(“cuda: 0”)
 
-# Read data using pandas
-data = pd.read_excel("SampleReviews.xlsx")
+# Create Tkinter root window
+root = tk.Tk()
+root.withdraw()
+
+# Prompt the user to select an Excel file using a file dialog
+file_path = filedialog.askopenfilename(filetypes=[("Excel Files", "*.xls *.xlsx")])
+
+# Read selected excel file using pandas
+data = pd.read_excel(file_path)
 print(data['Score'])
+
+# # Read data using pandas
+# data = pd.read_excel("SampleReviews.xlsx")
+# print(data['Score'])
 
 # Create and show histogram showing counts of review stars
 # score_plot = data['Score'].value_counts().sort_index().plot(kind='bar',
