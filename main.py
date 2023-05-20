@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import sys
 
 # Packages for file opening
 import tkinter as tk
@@ -22,6 +23,11 @@ root.withdraw()
 
 # Prompt the user to select an Excel file using a file dialog
 file_path = filedialog.askopenfilename(filetypes=[("Excel Files", "*.xls *.xlsx")])
+
+# Close program if no file opened
+if not file_path:
+    print("No file selected. Ending program now.")
+    sys.exit()
 
 # Read selected excel file using pandas
 data = pd.read_excel(file_path)
@@ -114,4 +120,10 @@ plt.show()
 export_path = filedialog.asksaveasfilename(defaultextension='.xlsx', filetypes=[('Excel Files', '*.xlsx')])
 
 print(roberta.head(5))
+
+# End program if no export path chosen
+if not export_path:
+    print("No file saved. Program will exit.")
+    sys.exit()
+
 roberta.to_excel(export_path, index=False)
