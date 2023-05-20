@@ -102,6 +102,17 @@ def polarity_scores_roberta(example):
     return scores_dict
 
 
+def get_sentiment(row):
+    if row['roberta_neg'] > row['roberta_pos'] and row['roberta_neg'] > row['roberta_neu']:
+        return 'Negative'
+    if row['roberta_pos'] > row['roberta_neg'] and row['roberta_pos'] > row['roberta_neu']:
+        return 'Positive'
+    if row['roberta_neu'] > row['roberta_pos'] and row['roberta_neu'] > row['roberta_neg']:
+        return 'Neutral'
+    else:
+        return 'Uh oh'
+
+
 for i, row in tqdm(data.iterrows(), total=len(data)):
     try:
         text = row['Text']
@@ -118,6 +129,10 @@ for i, row in tqdm(data.iterrows(), total=len(data)):
 roberta = pd.DataFrame(results).T
 roberta = roberta.reset_index().rename(columns={'index': 'Id'})
 roberta = roberta.merge(data, how='left')
+roberta['sentiment'] = roberta.apply(get_sentiment, axis=1)
+
+# Choose file name and location
+export_path = filedialog.asksaveasfilename(defaultextension='.xlsx', filetypes=[('Excel Files', '*.xlsx')])
 
 print(roberta.head(5))
-roberta.to_excel('Roberta_Results.xlsx')
+roberta.to_excel(export_path, index=False)
