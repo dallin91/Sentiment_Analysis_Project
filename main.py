@@ -2,10 +2,15 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import sys
+from pandasai import PandasAI
+
+#Instantiate a LLM
+from pandasai.llm.openai import OpenAI
+llm = OpenAI(api_token="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")
 
 # Packages for file opening
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, simpledialog
 
 plt.style.use('ggplot')
 import seaborn as sns
@@ -115,6 +120,16 @@ roberta['sentiment'] = roberta.apply(get_sentiment, axis=1)
 tester_plot = sns.barplot(data=roberta, x='Score', y='sentiment')
 tester_plot.set_title('Sentiment Classification by Amazon Star Review')
 plt.show()
+
+show_prompt = input("Would you like to ask questions about the data? "
+                                                   "Type 'Yes' or 'No'")
+# Use PandasAI to show other visualizations
+while show_prompt == 'Yes':
+    user_input = input("What data would you like to see?")
+    pandas_ai = PandasAI(llm)
+    pandas_ai.run(roberta, prompt=user_input)
+    show_prompt = input("Would you like to ask more questions about the data? "
+                                                       "Type 'Yes' or 'No'")
 
 # Choose file name and location
 export_path = filedialog.asksaveasfilename(defaultextension='.xlsx', filetypes=[('Excel Files', '*.xlsx')])
