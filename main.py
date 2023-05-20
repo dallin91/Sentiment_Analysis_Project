@@ -131,6 +131,11 @@ roberta = roberta.reset_index().rename(columns={'index': 'Id'})
 roberta = roberta.merge(data, how='left')
 roberta['sentiment'] = roberta.apply(get_sentiment, axis=1)
 
+# Check compound score from roberta model against star score review
+tester_plot = sns.barplot(data=roberta, x='Score', y='sentiment')
+tester_plot.set_title('Sentiment Classification by Amazon Star Review')
+plt.show()
+
 # Choose file name and location
 export_path = filedialog.asksaveasfilename(defaultextension='.xlsx', filetypes=[('Excel Files', '*.xlsx')])
 
