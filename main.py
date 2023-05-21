@@ -6,7 +6,7 @@ from pandasai import PandasAI
 
 #Instantiate a LLM
 from pandasai.llm.openai import OpenAI
-llm = OpenAI(api_token="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")
+llm = OpenAI(api_token="OPENAI_API_KEY")
 
 # Packages for file opening
 import tkinter as tk
