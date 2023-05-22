@@ -121,8 +121,8 @@ tester_plot = sns.barplot(data=roberta, x='Score', y='sentiment')
 tester_plot.set_title('Sentiment Classification by Amazon Star Review')
 plt.show()
 
-show_prompt = input("Would you like to ask questions about the data? "
-                                                   "Type 'Yes' or 'No'")
+# show_prompt = input("Would you like to ask questions about the data? "
+#                                                    "Type 'Yes' or 'No'")
 # # Use PandasAI to show other visualizations
 # while show_prompt == 'Yes':
 #     user_input = input("What data would you like to see?")
