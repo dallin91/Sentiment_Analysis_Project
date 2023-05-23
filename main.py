@@ -121,6 +121,13 @@ tester_plot = sns.barplot(data=roberta, x='Score', y='sentiment')
 tester_plot.set_title('Sentiment Classification by Amazon Star Review')
 plt.show()
 
+# Pie chart showing sentiment
+sentiment_counts = roberta['sentiment'].value_counts()
+plt.pie(sentiment_counts, labels=sentiment_counts.index, autopct='%1.1f%%')
+plt.axis('equal')
+plt.title('Sentiment Breakdown')
+plt.show()
+
 # show_prompt = input("Would you like to ask questions about the data? "
 #                                                    "Type 'Yes' or 'No'")
 # # Use PandasAI to show other visualizations
