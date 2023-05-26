@@ -2,11 +2,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import sys
-from pandasai import PandasAI
-
-#Instantiate a LLM
-from pandasai.llm.openai import OpenAI
-llm = OpenAI(api_token="OPENAI_API_KEY")
+# from pandasai import PandasAI
+#
+# #Instantiate a LLM
+# from pandasai.llm.openai import OpenAI
+# llm = OpenAI(api_token="OPENAI_API_KEY")
 
 # Packages for file opening
 import tkinter as tk
