@@ -152,9 +152,12 @@ plt.colorbar()
 tick_marks = np.arange(len(classes))
 plt.xticks(tick_marks, classes, rotation=45)
 plt.yticks(tick_marks, classes)
+thresh = confusion_mat.max() / 2
 for i in range(len(classes)):
     for j in range(len(classes)):
-        plt.text(j, i, confusion_mat[i, j], ha='center', va='center', color='black')
+        # adjust the color of text based on cell color
+        color = 'white' if confusion_mat[i, j] > thresh else 'black'
+        plt.text(j, i, confusion_mat[i, j], ha='center', va='center', color=color)
 
 plt.title('Confusion Matrix')
 plt.xlabel('Predicted')
