@@ -161,6 +161,10 @@ plt.xlabel('Predicted')
 plt.ylabel('Actual')
 plt.show()
 
+# Show accuracy of model
+accuracy = (confusion_mat[0, 0] + confusion_mat[1, 1] + confusion_mat[2, 2]) / confusion_mat.sum()
+print('Model Accuracy: ', accuracy)
+
 # show_prompt = input("Would you like to ask questions about the data? "
 #                                                    "Type 'Yes' or 'No'")
 # # Use PandasAI to show other visualizations
