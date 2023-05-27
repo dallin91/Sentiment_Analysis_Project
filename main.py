@@ -1,7 +1,9 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from wordcloud import WordCloud
 import sys
+
 # from pandasai import PandasAI
 #
 # #Instantiate a LLM
@@ -126,6 +128,15 @@ sentiment_counts = roberta['sentiment'].value_counts()
 plt.pie(sentiment_counts, labels=sentiment_counts.index, autopct='%1.1f%%')
 plt.axis('equal')
 plt.title('Sentiment Breakdown')
+plt.show()
+
+# Create word cloud of all reviews
+text = ' '.join(roberta['Text'])
+wordcloud = WordCloud(width=800, height=400).generate(text)
+plt.figure(figsize=(10, 5))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis('off')
+plt.title('Review World Cloud')
 plt.show()
 
 # show_prompt = input("Would you like to ask questions about the data? "
