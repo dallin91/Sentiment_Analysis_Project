@@ -141,13 +141,8 @@ plt.title('Review World Cloud')
 plt.show()
 
 # Confusion matrix showing Score vs Sentiment
-positive_condition = (roberta['sentiment'] == 'Positive') & (roberta['Score'].isin([4,5]))
-negative_condition = (roberta['sentiment'] == 'Negative') & (roberta['Score'].isin([1,2]))
-neutral_condition = (roberta['sentiment'] == 'Neutral') & (roberta['Score'].isin([2,3,4]))
-roberta['TP'] = positive_condition | negative_condition | neutral_condition
-roberta['TP'] = roberta['TP'].astype(str)
 actual = roberta['sentiment']
-predicted = roberta['TP']
+predicted = roberta['Score'].apply(lambda x: 'Positive' if x >= 4 else 'Negative' if x <= 2 else 'Neutral')
 confusion_mat = confusion_matrix(actual, predicted)
 print(confusion_mat)
 
