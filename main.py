@@ -148,6 +148,7 @@ confusion_mat = confusion_matrix(actual, predicted, labels=classes)
 print(confusion_mat)
 
 plt.imshow(confusion_mat, cmap='Blues')
+plt.grid(False)
 plt.colorbar()
 tick_marks = np.arange(len(classes))
 plt.xticks(tick_marks, classes, rotation=45)
