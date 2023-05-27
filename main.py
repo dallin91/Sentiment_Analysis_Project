@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import sys
 
 # from pandasai import PandasAI
@@ -143,8 +143,23 @@ plt.show()
 # Confusion matrix showing Score vs Sentiment
 actual = roberta['sentiment']
 predicted = roberta['Score'].apply(lambda x: 'Positive' if x >= 4 else 'Negative' if x <= 2 else 'Neutral')
-confusion_mat = confusion_matrix(actual, predicted)
+classes = sorted(roberta['sentiment'].unique())
+confusion_mat = confusion_matrix(actual, predicted, labels=classes)
 print(confusion_mat)
+
+plt.imshow(confusion_mat, cmap='Blues')
+plt.colorbar()
+tick_marks = np.arange(len(classes))
+plt.xticks(tick_marks, classes, rotation=45)
+plt.yticks(tick_marks, classes)
+for i in range(len(classes)):
+    for j in range(len(classes)):
+        plt.text(j, i, confusion_mat[i, j], ha='center', va='center', color='black')
+
+plt.title('Confusion Matrix')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.show()
 
 # show_prompt = input("Would you like to ask questions about the data? "
 #                                                    "Type 'Yes' or 'No'")
