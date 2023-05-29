@@ -62,7 +62,7 @@ from tqdm import tqdm
 sia = SentimentIntensityAnalyzer()
 results = {}
 
-#RoBERTa (Robustly Optimized Bidirectional Encoder Representations from Transformers) Model
+# RoBERTa (Robustly Optimized Bidirectional Encoder Representations from Transformers) Model
 MODEL = f"cardiffnlp/twitter-roberta-base-sentiment"
 tokenizer = AutoTokenizer.from_pretrained(MODEL)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL)
@@ -76,6 +76,7 @@ scores_dict = {
     "roberta_neu" : scores[1],
     "roberta_pos" : scores[2]
 }
+
 
 def polarity_scores_roberta(example):
     encoded_text = tokenizer(example, return_tensors='pt', max_length=512, truncation=True)
