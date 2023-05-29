@@ -119,10 +119,10 @@ roberta = roberta.reset_index().rename(columns={'index': 'Id'})
 roberta = roberta.merge(data, how='left')
 roberta['sentiment'] = roberta.apply(get_sentiment, axis=1)
 
-# Check compound score from roberta model against star score review
-tester_plot = sns.barplot(data=roberta, x='Score', y='sentiment')
-tester_plot.set_title('Sentiment Classification by Amazon Star Review')
-plt.show()
+# # Check compound score from roberta model against star score review THIS VISUALIZATION NOT IN WHILE LOOP
+# tester_plot = sns.barplot(data=roberta, x='Score', y='sentiment')
+# tester_plot.set_title('Sentiment Classification by Amazon Star Review')
+# plt.show()
 
 # # Pie chart showing sentiment
 # sentiment_counts = roberta['sentiment'].value_counts()
