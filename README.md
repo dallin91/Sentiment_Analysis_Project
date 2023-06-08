@@ -19,7 +19,7 @@
 <p>To install the required dependencies and set up the project, follow these steps:</p>
 
 <ol>
-  <li>Clone the repository: <code>git clone https://github.com/your-username/sentiment-analysis.git</code></li>
+  <li>Clone the repository: <code>git clone https://github.com/dallin91/Sentiment_Analysis_Project.git</code></li>
   <li>Change to the project directory: <code>cd sentiment-analysis</code></li>
   <li>Create a virtual environment: <code>python3 -m venv env</code></li>
   <li>Activate the virtual environment:
