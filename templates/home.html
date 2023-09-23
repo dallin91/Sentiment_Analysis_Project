@@ -2,9 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Sentiment Analysis with RoBERTa</title>
 </head>
 <body>
+<h1>Welcome to Sentiment Analysis with RoBERTa</h1>
+<p>This is the landing page of our app. You can get started by uploading an Excel file below:</p>
 
+<form action="/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".xlsx, .xls">
+    <button type="submit">Upload File</button>
+</form>
 </body>
 </html>
