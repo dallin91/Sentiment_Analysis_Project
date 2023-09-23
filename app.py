@@ -1,5 +1,5 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, request, redirect, url_for
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -11,7 +11,14 @@ def home():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     # Add code to handle file upload and process the Excel file
-    return "Upload route"
+    if request.method == 'POST':
+        file = request.files['file']
+        if file:
+            df = pd.read_excel(file)
+            # Perform any necessary data processing here
+            # i.e. storing this dataframe in a session variable
+            return redirect(url_for('analysis'))
+    return render_template('upload.html')
 
 @app.route('/analysis')
 def analysis():
