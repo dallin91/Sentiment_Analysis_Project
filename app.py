@@ -20,6 +20,7 @@ def upload():
             df = pd.read_excel(file)
             # Perform any necessary data processing here
             # i.e. storing this dataframe in a session variable
+            df = df.to_json()
             session['data'] = df
             return redirect(url_for('analysis'))
     return render_template('upload.html')
