@@ -1,17 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Sentiment Analysis with RoBERTa</title>
+    <title>Upload Excel File</title>
 </head>
 <body>
-<h1>Welcome to Sentiment Analysis with RoBERTa</h1>
-<p>This is the landing page of our app. You can get started by uploading an Excel file below:</p>
+    <h1>Upload an Excel File</h1>
+    <form method="post" action="/upload" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".xlsx, .xls" required>
+        <input type="submit" value="Upload">
+    </form>
 
-<form action="/upload" method="POST" enctype="multipart/form-data">
-    <input type="file" name="file" accept=".xlsx, .xls">
-    <button type="submit">Upload File</button>
-</form>
+    <!-- Display the dropdown menu if column_names is not empty -->
+    {% if column_names %}
+    <h2>Select a Column:</h2>
+    <form method="post" action="/analysis">
+        <select name="selected_column">
+            {% for column in column_names %}
+            <option value="{{ column }}">{{ column }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Analyze">
+    </form>
+    {% endif %}
+
 </body>
 </html>

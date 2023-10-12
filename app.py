@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask_session import Session
 import pandas as pd
 import secrets
 
@@ -6,10 +7,20 @@ app = Flask(__name__)
 
 app.secret_key = secrets.token_hex(16)
 
+app.config['SESSION_TYPE'] = 'filesystem'
+Session(app)
+
 @app.route('/')
 def home():
     # Add code to render the home page HTML template
-    return render_template('home.html')
+    data = session.get('data')
+    column_names = []
+
+    if data:
+        df = pd.read_json(data)
+        column_names = df.columns.tolist()
+
+    return render_template('home.html', column_names=column_names)
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
@@ -22,7 +33,7 @@ def upload():
             # i.e. storing this dataframe in a session variable
             df = df.to_json()
             session['data'] = df
-            return redirect(url_for('analysis'))
+            return redirect(url_for('home'))
     return render_template('upload.html')
 
 @app.route('/analysis')
